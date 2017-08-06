@@ -24,8 +24,8 @@ function makeinnerboxrandomly(value){
     }  
 }  
 
-makeinnerboxrandomly(8);  
-makeinnerboxrandomly(8);
+makeinnerboxrandomly(2);  
+makeinnerboxrandomly(2);
 
 function makeinnerbox(id,value){
    var mab=document.getElementById(id);
