@@ -1,0 +1,46 @@
+h1{
+	padding: 0;
+	margin: 0;
+}
+div.game-container{
+	margin: 40px auto;
+	width: 500px;
+	height: 500px;
+	background: #bbada0;
+	border-radius: 6px;
+	box-sizing: border-box;
+	position: relative;
+    padding: 15px;
+}
+div.box-container{
+	position: absolute;
+	z-index: 1;
+}
+div.row-box1,.row-box2,.row-box3,.row-box4{
+	margin-bottom: 15px; 
+}
+div.box{
+	margin-right: 15px;
+	margin-bottom: 15px; 
+    float: left;
+    border-radius: 3px;
+	width: 106.25px;
+	height: 106.25px;
+	background: rgba(238, 228, 218, 0.35);
+}
+div.inner-box{
+	margin: 3px auto;
+	padding: 1%;
+	border-radius: 3px;
+    width: 100px;
+    height: 100px;
+    background-color: red;
+	line-height: 107.5px;
+}
+div.inner-box h1{
+	padding: 0;
+	margin: 0;
+	color: white;
+	font-size: 65px;
+	text-align: center;
+}
