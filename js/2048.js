@@ -26,6 +26,8 @@ function makeinnerboxrandomly(value){
 
 makeinnerboxrandomly(2);  
 makeinnerboxrandomly(2);
+makeinnerboxrandomly(2);  
+makeinnerboxrandomly(2);
 
 function makeinnerbox(id,value){
    var mab=document.getElementById(id);
@@ -76,6 +78,63 @@ function canmoved(id_num,direc){
     }
   } 
 }
+
+function positiontomove(id_num,direc){
+  var pos=0;
+  var b=id_num;
+  if (direc=="up") {
+    for(var i=0;i<=2;i++){
+      if(b>4){
+        b=b-4;
+      }
+      var boxb=document.getElementById('box-'+b);
+      if(boxb.innerText==""){
+        pos=b;
+      }
+      else return pos;
+    }
+    return pos;
+  }
+  if (direc=="down") {
+    for(var i=0;i<=2;i++){
+      if(b<13){
+        b=b+4;
+      }
+      var boxb=document.getElementById('box-'+b);
+      if(boxb.innerText==""){
+        pos=b;
+      }
+      else return pos;
+    }
+    return pos;
+  }
+  if (direc=="right") {
+    for(var i=0;i<=2;i++){
+      if(b%4!=0){
+        b=b+1;
+      }
+      var boxb=document.getElementById('box-'+b);
+      if(boxb.innerText==""){
+        pos=b;
+      }
+      else return pos;
+    }
+    return pos;
+  }
+  if (direc=="left") {
+    for(var i=0;i<=2;i++){
+      if(b!=1 && b!=5 && b!=9 && b!=13){
+        b=b-1;
+      }
+      var boxb=document.getElementById('box-'+b);
+      if(boxb.innerText==""){
+        pos=b;
+      }
+      else return pos;
+    }
+    return pos;
+  }
+}
 function makeboxatempty(){
   for(var i=1;i<17;i++){
     var box=document.getElementById('box-'+i);
@@ -87,46 +146,50 @@ function makeboxatempty(){
 }
 function moveinnerbox(direc){
   if (direc=="up") {  
-    for(var i=1;i<17;i++){
+    for(var i=5;i<=16;i++){
       var box=document.getElementById('box-'+i);
-      if(box.innerText!="" && i>4){
-        if (canmoved(i,"up")) {
-          makeinnerbox('box-'+(i-4),box.innerText-0);
-          clearinnerbox('box-'+i);
-        }  
+      if(box.innerText!=""){
+        if(canmoved(i,"up")){
+          makeinnerbox('box-'+positiontomove(i,"up"),box.innerText-0);
+          clearinnerbox('box-'+i); 
+        }
       }
     }
   }
   else if (direc=="down") {
-    for(var i=1;i<17;i++){
+    for(var i=12;i>=1;i--){
       var box=document.getElementById('box-'+i);
-      if(box.innerText!="" && i<13){
-        if(canmoved(i,"down")){  
-          makeinnerbox('box-'+(i+4),box.innerText-0);
+      if(box.innerText!=""){
+        if(canmoved(i,"down")){
+          makeinnerbox('box-'+positiontomove(i,"down"),box.innerText-0);
           clearinnerbox('box-'+i);
         }  
       }
     }
   }
   else if (direc=="right") {
-    for(var i=1;i<17;i++){
-      var box=document.getElementById('box-'+i);
-      if(box.innerText!="" && i%4!=0){
-        if(canmoved(i,"right")){
-          makeinnerbox('box-'+(i+1),box.innerText-0);
-          clearinnerbox('box-'+i);
-        }  
+    for(var i=3;i>=1;i--){
+      for(var j=i,c=0;c<=3;j=j+4,c++){
+        var box=document.getElementById('box-'+j);
+        if(box.innerText!=""){
+          if(canmoved(j,"right")){
+            makeinnerbox('box-'+positiontomove(j,"right"),box.innerText-0);
+            clearinnerbox('box-'+j); 
+          }
+        } 
       }
     }
   }
   else if (direc=="left") {
-    for(var i=1;i<17;i++){
-      var box=document.getElementById('box-'+i);
-      if(box.innerText!="" && (i!=1 && i!=5 && i!=9 && i!=13 )){
-        if(canmoved(i,"left")){
-          makeinnerbox('box-'+(i-1),box.innerText-0);
-          clearinnerbox('box-'+i);
-        }  
+    for(var i=2;i<=4;i++){
+      for(var j=i,c=0;c<=3;j=j+4,c++){
+        var box=document.getElementById('box-'+j);
+        if(box.innerText!=""){
+          if(canmoved(j,"left")){
+            makeinnerbox('box-'+positiontomove(j,"left"),box.innerText-0);
+            clearinnerbox('box-'+j); 
+          }
+        } 
       }
     }
   }
@@ -137,19 +200,19 @@ window.addEventListener("keydown", function (event) {
   switch (event.key) {
     case "ArrowDown": 
           moveinnerbox("down");
-          makeboxatempty();
+          // makeboxatempty();
       break;
     case "ArrowUp":
           moveinnerbox("up");
-          makeboxatempty();
+          // makeboxatempty();
       break;
     case "ArrowLeft":
           moveinnerbox("left");    
-          makeboxatempty();      
+          // makeboxatempty();      
       break;
     case "ArrowRight":
           moveinnerbox("right"); 
-          makeboxatempty();   
+          // makeboxatempty();   
       break;
     default:
       return;
