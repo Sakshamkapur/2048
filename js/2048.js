@@ -21,12 +21,6 @@ function makeinnerboxrandomly(value){
     }  
 }  
 
-makeinnerboxrandomly(4);  
-makeinnerboxrandomly(4);
-makeinnerboxrandomly(4);  
-makeinnerboxrandomly(4);
-makeinnerboxrandomly(2);  
-makeinnerboxrandomly(2);
 makeinnerboxrandomly(2);  
 makeinnerboxrandomly(2);
 
@@ -53,16 +47,17 @@ function lostornot(){
     }
   }
   if(c==16){
-    alert("You lose")
+    if(confirm("You lose!! Play again ??")==true){
+      window.location.reload();
+    }
   }
-  else return 0;
 }
 function addinnerbox(direc){
   if(direc=="up"){
     for(var k=1;k<=16;k++){
       if(k<=4 && checkcolumn(k,"up")==1){
         addboxes(k,k+4,k);
-        addboxes(k+12,k+8,k+4);
+        addboxes(k+12,k+8,k+4,"up");
       }
       else{
         addboxes(k,k+4,k);
@@ -78,7 +73,7 @@ function addinnerbox(direc){
     for(var k=16;k>=1;k--){
       if(k>=13 && checkcolumn(k,"down")==1){
         addboxes(k,k-4,k);
-        addboxes(k-12,k-8,k-4);
+        addboxes(k-12,k-8,k-4,"down");
       }
       else{
         addboxes(k,k-4,k);
@@ -95,7 +90,7 @@ function addinnerbox(direc){
       for(var k=i,c=0;c<=3;k=k+4,c++){
         if(k%4==0 && checkcolumn(k,"right")==1){
           addboxes(k,k-1,k);
-          addboxes(k-3,k-2,k-1);
+          addboxes(k-3,k-2,k-1,"right");
         }
         else{
           addboxes(k,k-1,k); 
@@ -114,10 +109,8 @@ function addinnerbox(direc){
     for(var i=1;i<=4;i++){
       for(var k=i,c=0;c<=3;k=k+4,c++){
         if((k==1 || k==5 || k==9 || k==13) && checkcolumn(k,"left")==1){
-          console.log(k+"+"+(k-1)+">>"+k);
           addboxes(k,k+1,k);
-          console.log((k-3)+"+"+(k-2)+">>"+(k-1));
-          addboxes(k+3,k+2,k+1);
+          addboxes(k+3,k+2,k+1,"left");
         }
         else{
           addboxes(k,k+1,k); 
@@ -185,10 +178,46 @@ function checkcolumn(id,direc){
     else return 0;
   } 
 }
-function addboxes(id_num1,id_num2,id){
+function addboxes(id_num1,id_num2,id,tell){
   var box1=document.getElementById('box-'+id_num1);
   var box2=document.getElementById('box-'+id_num2);
   var box=document.getElementById('box-'+id);
+  if(box!=null && tell=="up" && box2!=null && box1!=null){
+    var val1=box1.innerText-0;
+    var val2=box2.innerText-0;
+    if(val1==val2){
+      clearinnerbox('box-'+id_num1);
+      clearinnerbox('box-'+id_num2);
+      makeinnerbox('box-'+(id_num2+4),val1+val2);
+    }
+  }
+  if(box!=null && tell=="down" && box2!=null && box1!=null){
+    var val1=box1.innerText-0;
+    var val2=box2.innerText-0;
+    if(val1==val2){
+      clearinnerbox('box-'+id_num1);
+      clearinnerbox('box-'+id_num2);
+      makeinnerbox('box-'+(id_num2-4),val1+val2);
+    }
+  }
+  if(box!=null && tell=="right" && box2!=null && box1!=null){
+    var val1=box1.innerText-0;
+    var val2=box2.innerText-0;
+    if(val1==val2){
+      clearinnerbox('box-'+id_num1);
+      clearinnerbox('box-'+id_num2);
+      makeinnerbox('box-'+(id_num2-1),val1+val2);
+    }
+  }
+  if(box!=null && tell=="left" && box2!=null && box1!=null){
+    var val1=box1.innerText-0;
+    var val2=box2.innerText-0;
+    if(val1==val2){
+      clearinnerbox('box-'+id_num1);
+      clearinnerbox('box-'+id_num2);
+      makeinnerbox('box-'+(id_num2+1),val1+val2);
+    }
+  }
   if(box2!=null && box1!=null){
     var val1=box1.innerText-0;
     var val2=box2.innerText-0;
@@ -362,25 +391,72 @@ function moveinnerbox(direc){
     addinnerbox("left");
   }
 }   
-
+// function stillplayable(){
+//   var co=0;
+//   for(var i=1;i<=16;i++){
+//     if(i>4){
+//     var box1=document.getElementById('box-'+i-4);}
+//     if(i<16){
+//     var box2=document.getElementById('box-'+i+1);}
+//     if(i>1){
+//     var box3=document.getElementById('box-'+i-1);}
+//     if(i<12){
+//     var box4=document.getElementById('box-'+i+4);}
+//     var box=document.getElementById('box-'+i);
+//     if(box!=null && box.innerText!=""){
+//       var val=box.innerText-0;
+//     }
+//     if(box1!=null && box1.innerText!=""){
+//       var val1=box1.innerText-0;
+//     }
+//     if(box2!=null && box2.innerText!=""){
+//       var val2=box2.innerText-0;
+//     }
+//     if(box3!=null && box3.innerText!=""){
+//       var val3=box3.innerText-0;
+//     }
+//     if(box4!=null && box4.innerText!=""){
+//       var val4=box4.innerText-0;
+//     }
+//     if((val==val1 && val1>=2) ||(val==val2 && val2>=2) ||(val==val3 && val3>=2) ||(val==val4 && val4>=2)){
+//       co++;
+//     }
+//   }console.log("a"+co);
+//   if(co>=1){
+//     return 1;
+//   }
+//   else return 0;
+// }
 window.addEventListener("keydown", function (event) {
 
   switch (event.key) {
     case "ArrowDown": 
           moveinnerbox("down");
-          // makeboxatempty();
+          makeboxatempty();
+          // if(stillplayable()==1){
+          //   lostornot();
+          // } 
       break;
     case "ArrowUp":
           moveinnerbox("up");
-          // makeboxatempty();
+          makeboxatempty();
+          // if(stillplayable()==1){
+          //   lostornot();
+          // }
       break;
     case "ArrowLeft":
           moveinnerbox("left");    
-          // makeboxatempty();      
+          makeboxatempty();
+          // if(stillplayable()==1){
+          //   lostornot();
+          // }     
       break;
     case "ArrowRight":
           moveinnerbox("right"); 
-          // makeboxatempty();   
+          makeboxatempty();
+          // if(stillplayable()==1){
+          //   lostornot();
+          // }  
       break;
     default:
       return;
