@@ -2,13 +2,11 @@
 
 function makeinnerboxrandomly(value){  
     var n = Math.floor(Math.random()*i[i.length-1])+1;
-    console.log("n:"+n);
     mab=document.getElementById('box-'+n);
     if(mab.innerText==""){
       makeinnerbox('box-'+n,value);
       // console.log(i[n]-1)
       // i.splice(i[n]-2,1);
-      console.log("i:"+i);
     }
     // else if(i.length==0){
     //   alert("You Lose")
@@ -19,11 +17,14 @@ function makeinnerboxrandomly(value){
     //   i.splice(n-1,1);
     // }
     else{
-      console.log("again")
       makeinnerboxrandomly(value);
     }  
 }  
 
+makeinnerboxrandomly(4);  
+makeinnerboxrandomly(4);
+makeinnerboxrandomly(4);  
+makeinnerboxrandomly(4);
 makeinnerboxrandomly(2);  
 makeinnerboxrandomly(2);
 makeinnerboxrandomly(2);  
@@ -42,6 +43,169 @@ function makeinnerbox(id,value){
 function clearinnerbox(id){
    var cib=document.getElementById(id);
    cib.innerText="";
+}
+function lostornot(){
+  var c=0;
+  for(var i=1;i<17;i++){
+    var box=document.getElementById('box-'+i); 
+    if(box.innerText!=""){
+      c++;
+    }
+  }
+  if(c==16){
+    alert("You lose")
+  }
+  else return 0;
+}
+function addinnerbox(direc){
+  if(direc=="up"){
+    for(var k=1;k<=16;k++){
+      if(k<=4 && checkcolumn(k,"up")==1){
+        addboxes(k,k+4,k);
+        addboxes(k+12,k+8,k+4);
+      }
+      else{
+        addboxes(k,k+4,k);
+        var box=document.getElementById('box-'+(k+4));
+        if(box!=null && canmoved(k+4,"up") && box.innerText!=""){
+          makeinnerbox('box-'+positiontomove(k+4,"up"),box.innerText-0);
+          clearinnerbox('box-'+(k+4));
+        }
+      }
+    }
+  }
+  if(direc=="down"){
+    for(var k=16;k>=1;k--){
+      if(k>=13 && checkcolumn(k,"down")==1){
+        addboxes(k,k-4,k);
+        addboxes(k-12,k-8,k-4);
+      }
+      else{
+        addboxes(k,k-4,k);
+        var box=document.getElementById('box-'+(k-4));
+        if(box!=null && canmoved(k-4,"down") && box.innerText!=""){
+          makeinnerbox('box-'+positiontomove(k-4,"down"),box.innerText-0);
+          clearinnerbox('box-'+(k-4));
+        }
+      }
+    }
+  }
+  if(direc=="right"){
+    for(var i=4;i>=1;i--){
+      for(var k=i,c=0;c<=3;k=k+4,c++){
+        if(k%4==0 && checkcolumn(k,"right")==1){
+          addboxes(k,k-1,k);
+          addboxes(k-3,k-2,k-1);
+        }
+        else{
+          addboxes(k,k-1,k); 
+          if(k!=1 && k!=5 && k!=9 && k!=13){
+            var box=document.getElementById('box-'+(k-1));
+            if(box!=null && canmoved(k-1,"right") && box.innerText!=""){
+              makeinnerbox('box-'+positiontomove(k-1,"right"),box.innerText-0);
+              clearinnerbox('box-'+(k-1));
+            }
+          }
+        }
+      }
+    }
+  }
+  if(direc=="left"){
+    for(var i=1;i<=4;i++){
+      for(var k=i,c=0;c<=3;k=k+4,c++){
+        if((k==1 || k==5 || k==9 || k==13) && checkcolumn(k,"left")==1){
+          console.log(k+"+"+(k-1)+">>"+k);
+          addboxes(k,k+1,k);
+          console.log((k-3)+"+"+(k-2)+">>"+(k-1));
+          addboxes(k+3,k+2,k+1);
+        }
+        else{
+          addboxes(k,k+1,k); 
+          if(k%4!=0){
+            var box=document.getElementById('box-'+(k+1));
+            if(box!=null && canmoved(k+1,"left") && box.innerText!=""){
+              makeinnerbox('box-'+positiontomove(k+1,"left"),box.innerText-0);
+              clearinnerbox('box-'+(k+1));
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+function checkcolumn(id,direc){
+  var count=0;
+  if(direc=="up"){
+    for(var i=id,c=0;c<=3;i=i+4,c++){
+      var box=document.getElementById('box-'+i);
+      if(box!=null && box.innerText!=""){
+        count++;
+      }
+    }
+    if(count==4){
+      return 1;
+    }
+    else return 0;
+  }
+  if(direc=="down"){
+    for(var i=id,c=0;c<=3;i=i-4,c++){
+      var box=document.getElementById('box-'+i);
+      if(box!=null && box.innerText!=""){
+        count++;
+      }
+    }
+    if(count==4){
+      return 1;
+    }
+    else return 0;
+  }
+  if(direc=="right"){
+    for(var i=id,c=0;c<=3;i=i-1,c++){
+      var box=document.getElementById('box-'+i);
+      if(box!=null && box.innerText!=""){
+        count++;
+      }
+    }
+    if(count==4){
+      return 1;
+    }
+    else return 0;
+  }  
+  if(direc=="left"){
+    for(var i=id,c=0;c<=3;i=i+1,c++){
+      var box=document.getElementById('box-'+i);
+      if(box!=null && box.innerText!=""){
+        count++;
+      }
+    }
+    if(count==4){
+      return 1;
+    }
+    else return 0;
+  } 
+}
+function addboxes(id_num1,id_num2,id){
+  var box1=document.getElementById('box-'+id_num1);
+  var box2=document.getElementById('box-'+id_num2);
+  var box=document.getElementById('box-'+id);
+  if(box2!=null && box1!=null){
+    var val1=box1.innerText-0;
+    var val2=box2.innerText-0;
+    if(val1==val2){
+      if(box.innerText!=""){
+        clearinnerbox('box-'+id);
+        clearinnerbox('box-'+id_num1);
+        clearinnerbox('box-'+id_num2);
+        makeinnerbox('box-'+id,val1+val2);
+      }
+      else {
+        makeinnerbox('box-'+id,val1+val2);
+        clearinnerbox('box-'+id_num1);
+        clearinnerbox('box-'+id_num2);
+      }
+    }
+  }   
 }
 function canmoved(id_num,direc){
   var box=document.getElementById('box-'+id_num);
@@ -155,6 +319,7 @@ function moveinnerbox(direc){
         }
       }
     }
+    addinnerbox("up");
   }
   else if (direc=="down") {
     for(var i=12;i>=1;i--){
@@ -166,6 +331,7 @@ function moveinnerbox(direc){
         }  
       }
     }
+    addinnerbox("down");
   }
   else if (direc=="right") {
     for(var i=3;i>=1;i--){
@@ -179,6 +345,7 @@ function moveinnerbox(direc){
         } 
       }
     }
+    addinnerbox("right");
   }
   else if (direc=="left") {
     for(var i=2;i<=4;i++){
@@ -192,6 +359,7 @@ function moveinnerbox(direc){
         } 
       }
     }
+    addinnerbox("left");
   }
 }   
 
